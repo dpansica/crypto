@@ -69,7 +69,7 @@ public class CipherTool {
             channel = UUID.randomUUID().toString();
             password = UUID.randomUUID().toString();
             new PGPCryptoModule(channel, password);
-            System.out.println("Channel  "+channel+" generated with password: "+password);
+            System.out.println("Channel "+channel+" generated with password: "+password);
         }
         else {
             if (channel == null) {
