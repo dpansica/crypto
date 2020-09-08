@@ -30,6 +30,10 @@ public class CipherTool {
         fileOption.setRequired(false);
         options.addOption(fileOption);
 
+        Option generateOption = new Option("g", "generateOption", false, "generatetOption command");
+        generateOption.setRequired(false);
+        options.addOption(generateOption);
+
         Option encryptOption = new Option("e", "encryptOption", false, "encryptOption command");
         encryptOption.setRequired(false);
         options.addOption(encryptOption);
@@ -51,6 +55,7 @@ public class CipherTool {
             System.exit(1);
         }
 
+        boolean generate = cmd.hasOption("generateOption");
         String channel = cmd.getOptionValue("channelOption");
         String password = cmd.getOptionValue("passwordOption");
         String text = cmd.getOptionValue("textOption");
@@ -60,31 +65,36 @@ public class CipherTool {
 
         GenericCryptoModule cryptoModule = null;
 
-        if (channel==null){
+        if (generate){
             channel = UUID.randomUUID().toString();
             password = UUID.randomUUID().toString();
             new PGPCryptoModule(channel, password);
             System.out.println("Channel  "+channel+" generated with password: "+password);
         }
-
-        if (encrypt){
-            cryptoModule = new PGPCryptoModule(channel);
-
-            if (text!=null){
-                System.out.println(cryptoModule.encipher(text));
+        else {
+            if (channel == null) {
+                System.exit(1);
             }
-            if (filename!=null){
-                System.out.println(cryptoModule.encipher(new File(filename)));
-            }
-        }
-        if (decrypt && password!=null){
-            cryptoModule = new PGPCryptoModule(channel, password);
 
-            if (text!=null){
-                System.out.println(cryptoModule.decipher(text));
+            if (encrypt) {
+                cryptoModule = new PGPCryptoModule(channel);
+
+                if (text != null) {
+                    System.out.println(cryptoModule.encipher(text));
+                }
+                if (filename != null) {
+                    System.out.println(cryptoModule.encipher(new File(filename)));
+                }
             }
-            if (filename!=null){
-                System.out.println(cryptoModule.decipher(new File(filename)));
+            if (decrypt && password != null) {
+                cryptoModule = new PGPCryptoModule(channel, password);
+
+                if (text != null) {
+                    System.out.println(cryptoModule.decipher(text));
+                }
+                if (filename != null) {
+                    System.out.println(cryptoModule.decipher(new File(filename)));
+                }
             }
         }
     }
