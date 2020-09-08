@@ -4,10 +4,10 @@ import java.io.File;
 
 public abstract class GenericCryptoModule {
 
-    protected File initializeStore(String filename){
+    protected File initializeStore(String channelId, String filename){
         String homeFolder = System.getProperty("user.home");
 
-        File cryptoStoreFolder = new File(homeFolder + File.separator + "crypto-store");
+        File cryptoStoreFolder = new File(homeFolder + File.separator + "crypto-store" + File.separator + channelId);
 
         if (!cryptoStoreFolder.exists()) {
             cryptoStoreFolder.mkdir();

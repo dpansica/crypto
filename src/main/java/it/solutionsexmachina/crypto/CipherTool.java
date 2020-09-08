@@ -5,29 +5,40 @@ import it.solutionsexmachina.crypto.implementation.PGPCryptoModule;
 
 import java.io.File;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class CipherTool {
 
     public static void main(String[] args) {
 
+        String channelId = UUID.randomUUID().toString();
+
+        System.out.println("Channel ID: "+channelId);
+
+        GenericCryptoModule cryptoModule = new PGPCryptoModule(channelId, "password");
+
+        GenericCryptoModule cryptoModuleToShare = new PGPCryptoModule(channelId);
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("\nEnter content to encipher: ");
         String content = scanner.nextLine();
 
-//        GenericCryptoModule cryptoModule = new PGPCryptoModule();
-//        cryptoModule.initialize();
+        String encipher = cryptoModuleToShare.encipher(content);
 
-        GenericCryptoModule cryptoModule = new PGPCryptoModule("password");
-
-        String encipher = cryptoModule.encipher(content);
-
+        System.out.println("Encrypted with shared key: ");
         System.out.println(encipher);
 
+        System.out.println("Decrypted with secret key: ");
         System.out.println(cryptoModule.decipher(encipher));
 
-        System.out.println(cryptoModule.encipher(new File("/home/diego/Desktop/Enel/Fattura_0000002937551477.pdf")));
+        System.out.println("\nEnter file to encipher: ");
+        String filename = scanner.nextLine();
 
-        System.out.println(cryptoModule.decipher(new File("/home/diego/Desktop/Enel/Fattura_0000002937551477.pdf.enc")));
+        System.out.println("Encrypted with shared key: ");
+        System.out.println(cryptoModuleToShare.encipher(new File(filename)));
+
+        System.out.println("Decrypted with secret key: ");
+        System.out.println(cryptoModule.decipher(new File(filename+".enc")));
     }
 
 }

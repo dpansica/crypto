@@ -18,6 +18,7 @@ import java.security.NoSuchProviderException;
 import java.security.Security;
 import java.util.Base64;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class PGPCryptoModule extends GenericCryptoModule {
 
@@ -25,9 +26,17 @@ public class PGPCryptoModule extends GenericCryptoModule {
 
     private String password;
 
-    public PGPCryptoModule(String password){
+    public PGPCryptoModule(String channelId, String password){
         try {
-            initSecretKey(password);
+            initSecretKey(channelId, password);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public PGPCryptoModule(String channelId){
+        try {
+            initSecretKey(channelId, null);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -43,16 +52,16 @@ public class PGPCryptoModule extends GenericCryptoModule {
             Scanner scanner = new Scanner(System.in);
             System.out.println("\nEnter password to cipher (Be sure to remember your password): ");
 
-            initSecretKey(scanner.nextLine());
+            initSecretKey(UUID.randomUUID().toString(), scanner.nextLine());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void initSecretKey(String password) throws IOException {
+    private void initSecretKey(String channelId, String password) throws IOException {
         this.password = password;
 
-        File privateKeyFile = initializeStore("pgp-secret.txt");
+        File privateKeyFile = initializeStore(channelId, "pgp-secret.txt");
 
         if (!privateKeyFile.exists()) {
 
