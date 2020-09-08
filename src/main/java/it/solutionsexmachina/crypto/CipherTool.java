@@ -5,7 +5,6 @@ import it.solutionsexmachina.crypto.implementation.PGPCryptoModule;
 import org.apache.commons.cli.*;
 
 import java.io.File;
-import java.util.Scanner;
 import java.util.UUID;
 
 public class CipherTool {
