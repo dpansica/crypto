@@ -305,7 +305,7 @@ public class PGPEncryption
 
 			PGPKeyPair secretKey2 = new PGPKeyPair(PGPPublicKey.RSA_GENERAL, keyPair, new Date());
 
-			PGPKeyRingGenerator keyRingGen = new PGPKeyRingGenerator(PGPSignature.POSITIVE_CERTIFICATION, secretKey, "<secure@welld.ch>", PGPEncryptedData.AES_256, password.toCharArray(), true, hashedGen.generate(), null, new SecureRandom(), "BC");
+			PGPKeyRingGenerator keyRingGen = new PGPKeyRingGenerator(PGPSignature.POSITIVE_CERTIFICATION, secretKey, "<dpansica@gmail.com>", PGPEncryptedData.AES_256, password.toCharArray(), true, hashedGen.generate(), null, new SecureRandom(), "BC");
 
 			keyRingGen.addSubKey(secretKey2);
 
